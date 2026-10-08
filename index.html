@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>DulceCesta · Confituras y regalos</title>
+  <meta name="description" content="DulceCesta: confituras, dulces y regalos.">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#inicio">🍬 <span>DulceCesta</span></a>
+  <nav>
+    <a href="#catalogo">Catálogo</a>
+    <button id="cartBtn" class="navbtn">🛒 <b id="cartCount">0</b></button>
+    <button id="adminBtn" class="navbtn dark">🔐 Admin</button>
+  </nav>
+</header>
+
+<main>
+<section id="inicio" class="hero">
+  <div>
+    <span class="eyebrow">CONFITURAS · DULCES · REGALOS</span>
+    <h1>Un pequeño dulce para un gran momento.</h1>
+    <p>Elige tus confituras favoritas, arma tu cesta y disfruta de algo especial.</p>
+    <a class="primary" href="#catalogo">Ver productos →</a>
+  </div>
+  <div class="hero-art">🍭<span>🍫</span><span>🍪</span><span>🍬</span></div>
+</section>
+
+<section id="catalogo" class="section">
+  <div class="section-head">
+    <div>
+      <span class="eyebrow plain">NUESTROS FAVORITOS</span>
+      <h2>Catálogo de confituras</h2>
+    </div>
+    <input id="search" class="search" placeholder="🔎 Buscar producto..." autocomplete="off">
+  </div>
+  <div id="status" class="status"></div>
+  <div id="products" class="grid"></div>
+</section>
+</main>
+
+<!-- Cart drawer -->
+<div id="cartOverlay" class="overlay hidden">
+  <aside class="drawer">
+    <button class="close" data-close="cart">×</button>
+    <h2>🛒 Tu carrito</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total">Total <strong id="cartTotal">$0.00</strong></div>
+    <button id="checkoutBtn" class="primary full">Continuar con el pedido</button>
+  </aside>
+</div>
+
+<!-- Checkout -->
+<div id="checkoutOverlay" class="overlay hidden">
+  <div class="modal">
+    <button class="close" data-close="checkout">×</button>
+    <h2>🧾 Datos del pedido</h2>
+    <p class="muted">Completa tus datos y envía el pedido.</p>
+    <label>Nombre<input id="customerName" required></label>
+    <label>Teléfono / WhatsApp<input id="customerPhone" required inputmode="tel"></label>
+    <label>Dirección o lugar de entrega<input id="customerAddress"></label>
+    <label>Comentario<input id="customerNote" placeholder="Ej.: después de las 4pm"></label>
+    <button id="sendOrderBtn" class="primary full">Enviar pedido</button>
+    <div id="orderMsg" class="status"></div>
+  </div>
+</div>
+
+<!-- Admin login -->
+<div id="adminLoginOverlay" class="overlay hidden">
+  <div class="modal small">
+    <button class="close" data-close="login">×</button>
+    <h2>🔐 Administración</h2>
+    <p class="muted">Acceso exclusivo del administrador.</p>
+    <label>Correo<input id="adminEmail" type="email" autocomplete="username"></label>
+    <label>Contraseña<input id="adminPassword" type="password" autocomplete="current-password"></label>
+    <button id="loginBtn" class="primary full">Entrar</button>
+    <div id="loginMsg" class="status"></div>
+  </div>
+</div>
+
+<!-- Admin -->
+<div id="adminOverlay" class="overlay hidden">
+  <div class="modal admin-modal">
+    <button class="close" data-close="admin">×</button>
+    <div class="admin-head">
+      <div><h2>🔐 Administración</h2><small id="adminUser"></small></div>
+      <button id="logoutBtn" class="secondary">Cerrar sesión</button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="inventory">📦 Inventario</button>
+      <button class="tab" data-tab="orders">🧾 Pedidos</button>
+    </div>
+
+    <section id="inventoryTab" class="tabpane">
+      <div id="stats" class="stats"></div>
+      <h3>➕ Agregar producto</h3>
+      <div class="formgrid">
+        <input id="pName" placeholder="Nombre">
+        <input id="pPrice" type="number" step="0.01" placeholder="Precio">
+        <input id="pStock" type="number" min="0" placeholder="Stock">
+        <input id="pEmoji" placeholder="Emoji (ej. 🍬)" value="🍬">
+        <input id="pImage" type="file" accept="image/*">
+      </div>
+      <button id="addProductBtn" class="primary">Añadir producto</button>
+      <div id="inventoryList"></div>
+    </section>
+
+    <section id="ordersTab" class="tabpane hidden">
+      <div id="ordersList"></div>
+    </section>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
